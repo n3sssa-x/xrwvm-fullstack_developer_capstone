@@ -19,9 +19,21 @@ from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from django.conf import settings
 
+# Import djangoapp views so we can add friendly root-level routes
+from djangoapp import views as djangoapp_views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('djangoapp/', include('djangoapp.urls')),
+
+    # Friendly, root-level routes that map to your djangoapp views
+    path('dealers', djangoapp_views.get_dealerships, name='dealers'),
+    path('dealers/<str:state>', djangoapp_views.get_dealerships, name='dealers_by_state'),
+    path('dealer/<int:dealer_id>', djangoapp_views.get_dealer_details, name='dealer_details_root'),
+    path('reviews/dealer/<int:dealer_id>', djangoapp_views.get_dealer_reviews, name='dealer_reviews_root'),
+    path('cars', djangoapp_views.get_cars, name='cars_root'),
+    path('add_review', djangoapp_views.add_review, name='add_review_root'),
+
     path('', TemplateView.as_view(template_name="Home.html")),
     path('about/', TemplateView.as_view(template_name="About.html")),
     path('contact/', TemplateView.as_view(template_name="Contact.html")),
