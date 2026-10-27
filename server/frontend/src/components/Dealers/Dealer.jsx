@@ -77,4 +77,5 @@ const Dealer = () => {
     </div>
   )
 }
+
 export default Dealer
